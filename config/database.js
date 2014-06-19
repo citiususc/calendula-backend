@@ -1,4 +1,5 @@
 // Database config
 module.exports = {
-		url : "mongodb://172.16.244.160:27017/calenduladb4"
+		url : "mongodb://localhost:27017/calenduladb4",
+		testUrl : "mongodb://localhost:27017/calendulaTest"
 };

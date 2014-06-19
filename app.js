@@ -15,15 +15,11 @@ var logger  	 = require('./app/util/logger');
 
 var port  	   = process.env.PORT || serverCfg.port;
 var router     = express.Router();
-
+var server     = null;
+var started    = false;
 /*
  * Configuration
  */
-console.log("Connecting to mongoDB on " + database.url);
-// connect to de mongoDB database
-mongoose.connect(database.url);
-
-// configure app
 app.use(bodyParser());
 app.use(logger.error);
 app.use(logger.logAll);
@@ -39,12 +35,38 @@ app.use('/api', router);
 require('./app/routes/users.js')(router);
 require('./app/routes/auth.js')(router);
 
-/*
- * Server start
- */
- if(serverCfg.https)
-   https.createServer(serverCfg.httpsOptions, app).listen(port, 'localhost');
- else
-   app.listen(port);
+// Export app and start function
+module.exports = {
+    // express app
+    expressApp : app,
 
-console.log("App listening on port " + port, "{ https: " + serverCfg.https+ ", authentication: " + authCfg.enabled +"}");
+    started: function(){return started;},
+
+    // function to start the app
+    start: function(testing){
+
+      var dbUrl = testing ? database.testUrl : database.url;
+      if(!testing) console.log("*** Connecting to mongoDB on " + database.url);
+      // connect to de mongoDB database
+      mongoose.connect(dbUrl);
+      // start server
+      if(serverCfg.https)
+        server = https.createServer(serverCfg.httpsOptions, app).listen(port, 'localhost');
+      else
+        server = app.listen(port);
+
+     started = true;
+     if(!testing) console.log("*** App listening on port " + port, "{ https: " + serverCfg.https+ ", authentication: " + authCfg.enabled +"}\n");
+
+   },
+
+   stop: function(){
+      if(server)
+          server.close();
+      if(mongoose.connection)
+        mongoose.connection.close()
+
+      started = false;
+      console.log("*** App stopped");
+   }
+}

@@ -1,7 +1,7 @@
 module.exports = {
     // loag all requests
     logAll: function(req, res, next) {
-	     console.log('Request: ', req.method , req.path, req.params);
+	     //console.log('Request: ', req.method , req.path, req.params);
 	     next(); // make sure we go to the next routes and don't stop here
     },
 

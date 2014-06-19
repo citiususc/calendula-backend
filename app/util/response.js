@@ -16,7 +16,7 @@
      status: 200,
      success:true,
      data: data
-   }
+   };
  };
 
  var errorResponseBody = function(status, message, ex){
@@ -42,8 +42,9 @@ module.exports = {
      res.json(status, errorResponseBody(status, message));
    },
 
-   exception: function(res, message, ex){
-     res.json(500, errorResponseBody(500, message, ex));
+   exception: function(res, message, ex, status){
+     status = status || 500;
+     res.json(status, errorResponseBody(status, message, ex));
    }
 
-}
+};

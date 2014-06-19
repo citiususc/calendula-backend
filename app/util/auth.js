@@ -17,7 +17,7 @@ var isAuthorizationExteption = function(req){
           isEx = true;
   });
   return isEx;
-}
+};
 
 module.exports = {
 

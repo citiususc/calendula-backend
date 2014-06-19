@@ -3,12 +3,16 @@
 	"main": "server.js",
 
 	"apidoc": "This is a description, it will be ignored if parameter apidocFilename exist.",
-  "apidocFilename": "api.md",
+  "apidocFilename": "resources/markdown/api.md",
 
 	"dependencies": {
 		"express": "~4.0.0",
 		"mongoose": "~3.6.13",
 		"body-parser": "~1.0.1",
-		"token": "*"
+		"token": "*",
+
+		"grunt": "~0.4.5",
+    "grunt-contrib-jshint": "~0.10.0",
+		"grunt-mocha-test": "~0.8.2"
 	}
 }

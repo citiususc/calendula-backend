@@ -25,6 +25,16 @@ module.exports = function(router) {
     var user = new User();
     user.username = req.body.username;
     user.password = req.body.password;
+
+    // verify username doesnt exist
+    User.findOne({username: user.username}, function (err, user){
+        if(err)
+          response.exception(res,"Error registering user!",err);
+        else if(user)
+          response.error(res,"Username already exists!", 409);
+    });
+
+
     // generate token
     user.token = authUtil.generateSecureToken(user);
     // save the user and check for errors
