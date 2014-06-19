@@ -10,8 +10,16 @@ var User      = require('../models/user');
 module.exports = function(router) {
 
   /**
-   * Register
-   */
+  * @apiVersion 0.1.0
+  * @api {post} /register Register an user
+  * @apiName UserRegister
+  * @apiGroup Auth
+  *
+  * @apiParam {String} username Username to register
+  * @apiParam {String} password Password to set
+  *
+  * @apiSuccess {String} auth Authentication token for the registered user
+  */
   router.route('/register').post(function(req, res) {
     // create new user instance
     var user = new User();
@@ -27,9 +35,18 @@ module.exports = function(router) {
     });
   });
 
-  /**
-   * Login
-   */
+
+   /**
+     * @apiVersion 0.1.0
+     * @api {post} /register User login
+     * @apiName UserLogin
+     * @apiGroup Auth
+     *
+     * @apiParam {String} username User username
+     * @apiParam {String} password User password
+     *
+     * @apiSuccess {String} auth Authentication token for the user
+     */
   router.route('/login').post(function(req, res) {
     // get login credentials
     var credentials = {

@@ -9,7 +9,14 @@ var response   = require('../util/response');
 module.exports = function(router) {
 
   /**
-   * Get all users
+   * @apiVersion 0.1.0
+   * @api {get} /users Request all users
+   * @apiName GetUsers
+   * @apiGroup User
+   *
+   * @apiParam {String} auth Authorization token
+   *
+   * @apiSuccess {Object} users Array of users
    */
   router.route('/users').get(function(req, res) {
     	User.find(function(err, users) {
@@ -19,9 +26,14 @@ module.exports = function(router) {
 		});
   });
 
-  /**
-   * Get an user by id
-   */
+   /**
+    * @apiVersion 0.2.0
+    * @api {get} /users/:id Request user by id
+    * @apiName GetUser
+    * @apiGroup User
+    *
+    * @apiSuccess {Object} user User information
+    */
   router.route('/users/:id').get(function(req, res) {
       User.findById(req.params.id, function(err, user) {
       if (err)

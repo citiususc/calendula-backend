@@ -1,6 +1,10 @@
 {
 	"name": "calendula-api",
 	"main": "server.js",
+
+	"apidoc": "This is a description, it will be ignored if parameter apidocFilename exist.",
+  "apidocFilename": "api.md",
+
 	"dependencies": {
 		"express": "~4.0.0",
 		"mongoose": "~3.6.13",
