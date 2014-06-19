@@ -64,7 +64,7 @@ module.exports = {
       if(server)
           server.close();
       if(mongoose.connection)
-        mongoose.connection.close()
+         mongoose.connection.close()
 
       started = false;
       console.log("*** App stopped");
