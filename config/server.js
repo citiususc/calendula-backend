@@ -3,6 +3,8 @@ var fs = require('fs');
 // auth settings
 module.exports = {
 
+  port: 8181,
+
   https : false,
 
   httpsOptions : {

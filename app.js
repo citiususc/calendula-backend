@@ -7,12 +7,13 @@ var https      = require('https');
 var fs         = require('fs');
 var bodyParser = require('body-parser');
 var mongoose   = require('mongoose');
-var auth  	   = require('./app/util/auth');
+var auth       = require('./app/util/auth');
 var database   = require('./config/database');
 var serverCfg  = require('./config/server');
+var authCfg    = require('./config/auth');
 var logger  	 = require('./app/util/logger');
 
-var port  	   = process.env.PORT || 9090;
+var port  	   = process.env.PORT || serverCfg.port;
 var router     = express.Router();
 
 /*
@@ -26,7 +27,10 @@ mongoose.connect(database.url);
 app.use(bodyParser());
 app.use(logger.error);
 app.use(logger.logAll);
-app.use(auth.requireAuthorization);
+
+if(authCfg.enabled)
+  app.use(auth.requireAuthorization);
+
 app.use('/api', router);
 
 /*
@@ -43,4 +47,4 @@ require('./app/routes/auth.js')(router);
  else
    app.listen(port);
 
-console.log("App listening on port " + port, " (https: " + serverCfg.https+ ")");
+console.log("App listening on port " + port, "{ https: " + serverCfg.https+ ", authentication: " + authCfg.enabled +"}");
