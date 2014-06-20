@@ -57,4 +57,7 @@ module.exports = function(grunt) {
   grunt.registerTask('test', ['jshint', 'mochaTest:test']);
   grunt.registerTask('deploy', ['jshint', 'mochaTest:testNoLog', 'apidoc', 'execute']);
 
+  // Travis CI task
+  grunt.registerTask('travis', ['jshint', 'mochaTest:test']);
+
 };

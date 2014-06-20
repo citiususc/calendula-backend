@@ -18,5 +18,9 @@
 		"grunt-execute": "*",
     "grunt-contrib-jshint": "~0.10.0",
 		"grunt-mocha-test": "~0.8.2"
-	}
+	},
+
+	"scripts": {
+        "test": "grunt travis --verbose"
+    }
 }
