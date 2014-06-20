@@ -9,30 +9,54 @@ var User       = require('../app/models/user');
 
 describe('User API (App.routes.users)', function() {
 
-  var url = 'http://localhost:' + serverCgf.port + "/api";
-  // run all the operations that are needed to setup our tests. In this case
-  // I want to create a connection with the database, and when I'm done, I call done().
+  var url  = 'http://localhost:' + serverCgf.port + "/api";
+  var walter = null, mike = null;
 
+  // Setup our database before testing. In this case, we are going to start
+  // the aplicaction and insert 2 users
   before(function(done) {
-    User.remove(done);
+
     // start app in testing mode
     if(!app.started()) app.start(true);
-  });
 
-  // testing user
-  var user = {
-    username: 'walter',
-    password: 'albuquerque',
-  };
+    // clean up
+    User.remove(function(){
+      // create users
+      walter = new User({username: 'walter', password: 'albuquerque'});
+      mike = new User({username: 'mike', password: 'albuquerque'});
+
+      User.create([walter,mike],function(err) {
+        if (err)
+          throw err;
+        done();
+      });
+
+    });
+
+  });
 
   describe('User listing', function() {
 
-    it('should return the user list', function(done) {
-      request(url).post('/register').send(user).end(function(err, res) {
+    it('should return an user list with two items', function(done) {
+      request(url).get('/users').end(function(err, res) {
             if (err)
               throw err;
 
             res.status.should.equal(200);
+            res.body.should.have.property('data').with.lengthOf(2);
+            done();
+      });
+    });
+
+    it('should return the requested user', function(done) {
+      request(url).get('/users/' + walter.username).end(function(err, res) {
+            if (err)
+              throw err;
+
+            res.status.should.equal(200);
+            res.body.success.should.equal(true);
+            res.body.data.should.have.property('username').equal(walter.username);
+
             done();
       });
     });

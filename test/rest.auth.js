@@ -46,7 +46,7 @@ describe('Auth API (App.routes.auth)', function() {
             done();
       });
     });
-    
+
   });
 
   describe('Login', function() {
