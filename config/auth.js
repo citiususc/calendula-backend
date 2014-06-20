@@ -1,7 +1,7 @@
 // auth settings
 module.exports = {
 
-    enabled : false,
+    enabled : true,
 
     SALT_WORK_FACTOR : 10,
 

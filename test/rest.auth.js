@@ -5,6 +5,7 @@ var request = require('supertest');
 var app = require('../app');
 var database   = require('../config/database');
 var serverCgf  = require('../config/server');
+var authCgf    = require('../config/auth');
 var User       = require('../app/models/user');
 
 describe('Auth API (App.routes.auth)', function() {
@@ -28,6 +29,12 @@ describe('Auth API (App.routes.auth)', function() {
   // Auth API tests
 
   describe('Register', function() {
+
+    it('Authentication should be enabled', function(done) {
+        authCgf.enabled.should.equal(true);
+        done();
+    });
+
 
     it('should return success trying to register an user', function(done) {
       request(url).post('/register').send(user).end(function(err, res) {
@@ -63,7 +70,7 @@ describe('Auth API (App.routes.auth)', function() {
     it('should fail when trying to login with invalid credentials', function(done) {
       request(url).post('/login').send({username:'walter', password:'wrong'}).end(function(err, res) {
             if (err) throw err;
-            // console.log(res);
+
             res.status.should.equal(401);
             done();
       });

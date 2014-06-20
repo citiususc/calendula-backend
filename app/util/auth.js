@@ -23,24 +23,26 @@ module.exports = {
 
     // secure token generation
     generateSecureToken: function (user){
-        return token.generate(user.username + "|" + user.password);
+        return token.generate(user.username);
     },
 
     // secure token verification
     requireAuthorization: function(req, res, next){
 
         if(isAuthorizationExteption(req)){
-          console.log("Auth exception: " + req.path);
+          //console.log("Auth exception: " + req.path);
           next();
         }else{
           var auth = req.header("auth");
           User.findOne({token: auth}, function (err, user){
               if(err || !user)
                 response.error(res, "Not authorized", 401);
-              else if(token.verify(user.username + "|" + user.password, req.header("auth")))
+              else if(token.verify(user.username, req.header("auth")))
                 next();
-              else
-                console.log("Request not authorized!");
+              else{
+                //console.log("Request not authorized!");
+                next(new Error("Request not authorized"));
+              }
           });
         }
     }

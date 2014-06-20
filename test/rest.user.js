@@ -25,10 +25,17 @@ describe('User API (App.routes.users)', function() {
       walter = new User({username: 'walter', password: 'albuquerque'});
       mike = new User({username: 'mike', password: 'albuquerque'});
 
-      User.create([walter,mike],function(err) {
+      User.create([mike],function(err) {
         if (err)
           throw err;
-        done();
+        // save walter vía api to obtain an API token
+        request(url).post('/register').send(walter).end(function(err, res) {
+              if (err)
+                throw err;
+
+              walter.token = res.body.data;
+              done();
+        });
       });
 
     });
@@ -38,7 +45,7 @@ describe('User API (App.routes.users)', function() {
   describe('User listing', function() {
 
     it('should return an user list with two items', function(done) {
-      request(url).get('/users').end(function(err, res) {
+      request(url).get('/users').set("auth",walter.token).end(function(err, res) {
             if (err)
               throw err;
 
@@ -49,7 +56,7 @@ describe('User API (App.routes.users)', function() {
     });
 
     it('should return the requested user', function(done) {
-      request(url).get('/users/' + walter.username).end(function(err, res) {
+      request(url).get('/users/' + walter.username).set("auth",walter.token).end(function(err, res) {
             if (err)
               throw err;
 
