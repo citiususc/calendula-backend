@@ -28,16 +28,17 @@ module.exports = function(router) {
 
    /**
     * @apiVersion 0.2.0
-    * @api {get} /users/:id Request user by id
+    * @api {get} /users/:username Request an user by username
     * @apiName GetUser
     * @apiGroup User
     *
     * @apiSuccess {Object} user User information
     */
-  router.route('/users/:id').get(function(req, res) {
-      User.findById(req.params.id, function(err, user) {
+  router.route('/users/:username').get(function(req, res) {
+      User.findOne({username: req.params.username}, function(err, user) {
       if (err)
         response.exception(res,"Error finding user", err);
+
       response.success(res,user);
     });
   });
