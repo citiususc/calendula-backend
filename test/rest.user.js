@@ -42,6 +42,10 @@ describe('User API (App.routes.users)', function() {
 
   });
 
+  after(function(){
+    app.stop();
+  });
+
   describe('User listing', function() {
 
     it('should return an user list with two items', function(done) {

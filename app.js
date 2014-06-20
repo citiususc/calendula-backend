@@ -67,6 +67,5 @@ module.exports = {
          mongoose.connection.close()
 
       started = false;
-      console.log("*** App stopped");
    }
 }

@@ -47,7 +47,7 @@ module.exports = function(router) {
 
    /**
      * @apiVersion 0.1.0
-     * @api {post} /register User login
+     * @api {post} /login User login
      * @apiName UserLogin
      * @apiGroup Auth
      *

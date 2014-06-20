@@ -20,6 +20,10 @@ describe('Auth API (App.routes.auth)', function() {
     if(!app.started()) app.start(true);
   });
 
+  after(function(){
+    app.stop();
+  });
+
   // testing user
   var user = {
     username: 'walter',

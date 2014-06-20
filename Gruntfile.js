@@ -28,6 +28,13 @@ module.exports = function(grunt) {
                 timeout: 10000
             },
             src: ["test/**/*.js"]
+        },
+        testNoLog:{
+            options: {
+              reporter: "nyan",
+              timeout: 10000
+            },
+            src: ["test/**/*.js"]
         }
     },
 
@@ -45,10 +52,9 @@ module.exports = function(grunt) {
   grunt.loadNpmTasks('grunt-mocha-test');
   grunt.loadNpmTasks('grunt-execute');
 
-  grunt.registerTask('test', ['jshint', 'mochaTest']);
+  grunt.registerTask('default', ['jshint','mochaTest:test','apidoc']);
 
-  grunt.registerTask('default', ['apidoc','jshint']);
-  grunt.registerTask('deploy', ['jshint','execute']);
-
+  grunt.registerTask('test', ['jshint', 'mochaTest:test']);
+  grunt.registerTask('deploy', ['jshint', 'mochaTest:testNoLog', 'apidoc', 'execute']);
 
 };

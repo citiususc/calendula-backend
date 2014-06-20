@@ -24,6 +24,10 @@ describe('User model (App.models.user)', function() {
     User.remove(done);
   });
 
+  after(function(){
+    app.stop();
+  });
+
   describe('User', function() {
 
     it('should save without error', function(done) {
