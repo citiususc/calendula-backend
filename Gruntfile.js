@@ -1,5 +1,7 @@
 module.exports = function(grunt) {
 
+  var reportDir = 'public/coverage/';
+
   // Project configuration.
   grunt.initConfig({
 
@@ -8,7 +10,7 @@ module.exports = function(grunt) {
     apidoc: { // apidoc configuration
       myapp: {
         src: "app/",
-        dest: "docs/",
+        dest: "public/docs/",
         options: {
           excludeFilters: [ "node_modules/" ]
         }
@@ -17,7 +19,10 @@ module.exports = function(grunt) {
 
     // configuration for js hint
     jshint: {
-      all: ['Gruntfile.js', 'app/**/*.js', 'config/**/*.js', 'test/**/*.js']
+      all: ['Gruntfile.js', 'app/**/*.js', 'config/**/*.js', 'test/**/*.js'],
+      options:{
+        ignores: ['public/coverage/**/*.js']
+      }
     },
 
     // execute tests
@@ -37,25 +42,37 @@ module.exports = function(grunt) {
             src: ["test/**/*.js"]
         }
     },
-
     // configure app start
     execute: {
         target: {
             src: ['server.js']
         }
+    },
+
+    shell: {
+        coverage: {
+            command: 'istanbul cover node_modules/mocha/bin/_mocha --dir ./public/coverage/ -- -R spec'
+        }
     }
+
+
+
 
   });
 
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-apidoc');
   grunt.loadNpmTasks('grunt-mocha-test');
+  grunt.loadNpmTasks('grunt-istanbul');
+  grunt.loadNpmTasks('grunt-env');
   grunt.loadNpmTasks('grunt-execute');
+  grunt.loadNpmTasks('grunt-shell');
+
 
   grunt.registerTask('default', ['jshint','mochaTest:test','apidoc']);
-
+  grunt.registerTask('coverage', ['shell:coverage']);
   grunt.registerTask('test', ['jshint', 'mochaTest:test']);
-  grunt.registerTask('deploy', ['jshint', 'mochaTest:testNoLog', 'apidoc', 'execute']);
+  grunt.registerTask('deploy', ['jshint', 'coverage', 'mochaTest:testNoLog', 'apidoc', 'execute']);
 
   // Travis CI task
   grunt.registerTask('travis', ['jshint', 'mochaTest:test']);

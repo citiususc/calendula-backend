@@ -15,9 +15,12 @@
 		"supertest" : "*",
 		"grunt": "~0.4.5",
 		"grunt-apidoc": "*",
+		"grunt-env":"*",
 		"grunt-execute": "*",
     "grunt-contrib-jshint": "~0.10.0",
-		"grunt-mocha-test": "~0.8.2"
+		"grunt-mocha-test": "~0.8.2",
+		"grunt-istanbul": "*",
+		"grunt-shell":"*"
 	},
 
 	"scripts": {

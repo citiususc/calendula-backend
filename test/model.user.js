@@ -45,6 +45,19 @@ describe('User model (App.models.user)', function() {
         });
     });
 
+    it('should fail saving an user without password', function(done) {
+
+        var fail = new User({
+          username: "name",
+          password: null,
+        });
+
+        fail.save(function(err) {
+          err.should.not.equal(null);
+          done();
+        });
+    });
+
     it('should be not null', function(done) {
         user.should.be.type('object');
         done();

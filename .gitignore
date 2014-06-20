@@ -11,6 +11,8 @@ pids
 logs
 results
 build
-docs
 
 node_modules
+
+public/coverage
+public/docs
