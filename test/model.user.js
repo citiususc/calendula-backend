@@ -13,15 +13,6 @@ describe('User model (App.models.user)', function() {
   var name = 'walter';
   var password = 'albuquerque';
 
-  before(function(done) {
-      user = new User({
-        username: name,
-        password: password,
-      });
-      done();
-  });
-
-
   // Setup our database before testing. In this case, we are going to start
   // the aplicaction and insert 2 users
   before(function(done) {
@@ -30,25 +21,25 @@ describe('User model (App.models.user)', function() {
     if(!app.started()) app.start(true);
 
     // clean up
-    User.remove(function(){
-
-      user = new User({
-        username: name,
-        password: password,
-      });
-
-      user.save(function(err) {
-        if (err)
-          throw err;
-
-        done();
-      });
-
-    });
-
+    User.remove(done);
   });
 
-  describe('Valid', function() {
+  describe('User', function() {
+
+    it('should save without error', function(done) {
+
+        user = new User({
+          username: name,
+          password: password,
+        });
+
+        user.save(function(err) {
+          if (err)
+            throw err;
+
+          done();
+        });
+    });
 
     it('should be not null', function(done) {
         user.should.be.type('object');
