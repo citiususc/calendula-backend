@@ -34,6 +34,7 @@ app.use('/api', router);
  */
 require('./app/routes/users.js')(router);
 require('./app/routes/auth.js')(router);
+require('./app/routes/webhooks.js')(router);
 
 // Export app and start function
 module.exports = {
